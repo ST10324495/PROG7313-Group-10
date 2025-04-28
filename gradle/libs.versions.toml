@@ -11,7 +11,8 @@ activity = "1.10.1"
 fragment = "1.7.1" # <- ADD THIS for fragment-ktx
 constraintlayout = "2.2.1"
 supportAnnotations = "28.0.0"
-room = "2.6.1" # <- ADD this for Room
+room = "2.6.1"
+activityVersion = "1.8.0" # <- ADD this for Room
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -38,3 +39,4 @@ room-compiler = { group = "androidx.room", name = "room-compiler", version.ref =
 # Lifecycle libraries
 lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version = "2.7.0" }
 lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version = "2.7.0" }
+activity = { group = "androidx.activity", name = "activity", version.ref = "activityVersion" }
