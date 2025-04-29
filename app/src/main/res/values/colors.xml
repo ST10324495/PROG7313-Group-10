@@ -1,4 +1,5 @@
 <resources>
+    <color name="navy_blue">#25418B</color>
     <color name="dark_text">#1A1A1A</color>
     <color name="primary_blue">#1748A6</color>
     <color name="expense_red">#970000</color>
