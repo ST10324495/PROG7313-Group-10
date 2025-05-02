@@ -53,6 +53,8 @@ dependencies {
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     implementation(libs.activity)
+    implementation(libs.androidx.leanback)
+    implementation(libs.glide)
     kapt(libs.room.compiler)
 
     implementation(libs.lifecycle.livedata.ktx)

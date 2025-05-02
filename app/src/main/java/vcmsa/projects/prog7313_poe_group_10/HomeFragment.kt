@@ -13,7 +13,12 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.SwitchCompat
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.launch
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -48,6 +53,21 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
+
+        // Add expenses
+        val db = Room.databaseBuilder(
+            requireContext(),
+            AppDatabase::class.java,
+            "budget-tracker-db"
+        ).build()
+
+        val recyclerView = view.findViewById<RecyclerView>(R.id.rvExpenses)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        lifecycleScope.launch {
+            val expenses = db.expenseDao().getAllExpenses()
+            recyclerView.adapter = ExpenseAdapter(expenses)
+        }
 
         switchOnOff = view.findViewById(R.id.switchOnOff)
         tvSwitchYes = view.findViewById(R.id.tvSwitchYes)

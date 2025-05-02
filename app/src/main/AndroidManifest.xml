@@ -13,6 +13,12 @@
         android:theme="@style/Theme.PROG7313_POE_Group_10"
         tools:targetApi="31">
         <activity
+            android:name=".ImageViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".BudgetGoalSettingActivity"
+            android:exported="false" />
+        <activity
             android:name=".WelcomeActivity"
             android:exported="true">
             <intent-filter>
@@ -24,12 +30,9 @@
         <activity
             android:name=".LoginActivity"
             android:exported="false" />
-
         <activity
             android:name=".RegistrationActivity"
-            android:exported="true">
-
-        </activity> <!-- AddCategoryActivity -->
+            android:exported="true" /> <!-- AddCategoryActivity -->
         <activity
             android:name=".AddCategoryActivity"
             android:exported="true" />

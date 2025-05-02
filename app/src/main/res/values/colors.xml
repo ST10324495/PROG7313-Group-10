@@ -25,7 +25,6 @@
     <color name="lightest_grey">#E5E5E5</color>
 
 
-
     <!-- Bassie -->
     <color name="primary_blue2">#2545B4</color>
     <color name="secondary_blue">#3C5CDD</color>
@@ -40,6 +39,17 @@
     <color name="grey2">#F2F2F2</color>
     <color name="text_grey">#757575</color>
     <color name="heading_grey">#808080</color>
+
+    <!-- Ora -->
+    <color name="card_background">#FFFFFF</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#757575</color>
+    <color name="background_gradient_start">#000000</color>
+    <color name="background_gradient_end">#DDDDDD</color>
+    <color name="fastlane_background">#0096a6</color>
+    <color name="search_opaque">#ffaa3f</color>
+    <color name="selected_background">#ffaa3f</color>
+    <color name="default_background">#3d3d3d</color>
 
 
 </resources>

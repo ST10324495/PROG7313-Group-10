@@ -8,15 +8,24 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.Room
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import vcmsa.projects.prog7313_poe_group_10.databinding.FragmentCategoriesBinding
+import kotlinx.coroutines.launch
 
 class CategoriesFragment : Fragment() {
 
     private var param1: String? = null
     private var param2: String? = null
-    private lateinit var fabAdd: FloatingActionButton
+
+    private var _binding: FragmentCategoriesBinding? = null
+    private val binding get() = _binding!!
+
+    private lateinit var db: AppDatabase
+    private lateinit var categoryAdapter: CategoryAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,42 +39,76 @@ class CategoriesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout
-        val view = inflater.inflate(R.layout.fragment_categories, container, false)
+        _binding = FragmentCategoriesBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        fabAdd = view.findViewById(R.id.fabAdd)
-        // Add category button
-        fabAdd.setOnClickListener {
-            val intent = Intent(requireContext(), AddCategoryActivity::class.java)
-            startActivity(intent)
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
+        db = Room.databaseBuilder(
+            requireContext(),
+            AppDatabase::class.java,
+            "budget-tracker-db"
+        ).build()
 
-        // Find the spinner in the inflated view
-        val spinner: Spinner = view.findViewById(R.id.monthSpinner)
+        setupRecyclerView()
+        setupSpinner()
+        setupFab()
 
-        // Create adapter
+        loadCategories()
+    }
+
+    private fun setupRecyclerView() {
+        categoryAdapter = CategoryAdapter(emptyList())
+        binding.recyclerViewCategories.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewCategories.adapter = categoryAdapter
+    }
+
+    private fun setupSpinner() {
+        val spinner: Spinner = binding.monthSpinner
         val adapter = ArrayAdapter.createFromResource(
-            requireContext(), // use context safely in fragments
+            requireContext(),
             R.array.months_array,
             R.layout.custom_spinner_item
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
 
-        // Handle spinner selection
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?, view: View?, position: Int, id: Long
             ) {
                 val selectedMonth = parent?.getItemAtPosition(position).toString()
-                Toast.makeText(requireContext(), "Selected: $selectedMonth", Toast.LENGTH_SHORT).show()
+                loadDataForMonth(selectedMonth)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
+    }
 
-        return view
+    private fun setupFab() {
+        binding.fabAdd.setOnClickListener {
+            val intent = Intent(requireContext(), AddCategoryActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    private fun loadCategories() {
+        lifecycleScope.launch {
+            val categories = db.categoryDao().getAllCategories()
+            categoryAdapter.updateData(categories)
+        }
+    }
+
+    private fun loadDataForMonth(month: String) {
+        // Future implementation: filter categories based on month, if needed
+        loadCategories() // currently loads all
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {
