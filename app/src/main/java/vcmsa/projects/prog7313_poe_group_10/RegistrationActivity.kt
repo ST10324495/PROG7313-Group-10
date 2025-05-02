@@ -138,7 +138,7 @@ class RegistrationActivity : AppCompatActivity() {
         Toast.makeText(this, "Registration successful! You can now log in.", Toast.LENGTH_SHORT).show()
 
         // Navigate to login activity instead of main activity
-        //navigateToLogin()
+        navigateToLogin()
     }
 
     //Navigates to the login activity
